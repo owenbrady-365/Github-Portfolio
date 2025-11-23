@@ -1,0 +1,178 @@
+/*Things to Add:
+    -Standard div box details
+    -Optional Accent Div box details
+    -classes for nav wrappers
+    -Choose a favourite font!!!
+    -Create a stylesheet for each page?
+    -Adopt the naming convention: class=type-description [class="nav-homeheader"]
+    -figure out the difference between nav-main and div-navbuttons
+*/
+
+/*set color themes*/
+:root{
+    --color-primary: #990f00; /*penn red*/
+    --color-secondary: #ff1b00; /*scarlet*/
+    --color-bg: #100b00; /*smoky black*/
+    --color-grey: #5e5e5e; /*davy's grey*/
+    --color-white: #fbfbfb; /*white*/
+    --color-a1: #660099; /*indigo*/
+    --color-a2:#000099;/*duke blue*/
+    --color-a3:#009999;/*dark cyan*/
+    --color-a4:#199907;/*forest green*/
+    --color-a5:#999900; /*olive*/
+}
+
+@font-face{
+    font-family: "Chunk1";
+    src: url("fonts/Chunk.ttf") format('truetype'), url('fonts/Chunk.woff') format('woff'),url('fonts/Chunk.eot') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*set the background image*/
+body{
+    background-image: url("TCB-Processed2.png");
+    background-color:rgba(16, 11, 0, 0.5);
+    background-blend-mode: multiply;
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+    color: var(--color-white);
+     font-family: Arial, Helvetica, sans-serif;
+}
+
+.div-homeintro{
+    background-color: rgba(70, 70, 70, .5);
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-top: 7vh;
+    width: 69vw;
+    height:auto;
+    white-space: wrap;
+}
+
+.div-homeowenpic{
+    display: inline-block;
+    width: 30vw;
+    height: 90vh;
+    padding: 30px;
+}
+
+.div-hometop{
+    display: flex;
+    width: 99vw;
+    height: 90vh;
+}
+.div-navbuttons{
+    display: block;
+    width: 70%; 
+    align-items: center;
+}
+
+.div-navheadermain{
+    background-color: var(--color-white);
+    padding-bottom: 10px;
+    padding-top: 0px;
+    display: flex;
+    height: 9%;
+}
+
+.div-navlogo{
+    width: 25%;
+    padding: 1px;
+    position:  relative; left: 7%;
+}
+
+h1{
+    font:bold;
+    color: var(--color-secondary);
+}
+
+
+
+h2{
+    font: bold;
+    color:var(--color-white);
+}
+
+.home-titlecard{
+    display: inline-flex;
+    width: auto;
+    height: 90px;
+    padding: 10px;
+    position:absolute;
+    bottom: -20px;
+    left:90px;
+    background-color: var(--color-primary);
+    border-radius: 30%;
+    font-family: Arial, Helvetica, sans-serif;
+    white-space: nowrap;
+    font-size: 2rem;
+    line-height: .5;
+    align-items: center;
+}
+
+html,body {
+    margin:0;
+    padding:0;
+    height: 100%;
+}
+
+.img-headerlogo{
+    width: auto;
+    height: 80%;
+    padding:  8px;
+}
+
+.img-portfoliopic{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 85vh;
+    padding: 5px;
+}
+
+nav a{
+    display: flex;
+    padding: .5rem;
+    text-decoration: none;
+    color: #0f0f0f;
+    font-size: 3.5vh;
+    background-color: var(--color-primary);
+    border-radius: 8px;
+    height: auto;
+    max-height: 50px;
+    width: auto;
+    white-space: nowrap;
+}
+
+nav a:hover{
+    background-color: var(--color-secondary);
+}
+
+nav li{
+    margin: 1%;
+}
+
+.nav-main{
+    display: block;
+    align-items: center;
+    width: 65vw;
+    font-family: 'Chunk1';
+}
+
+nav ul{
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+    width: 50%;
+    position: relative;  left: 2%;
+}
+
+p{
+    color:var(--color-white);
+}
+p.shifted{
+    margin-left: 30px;
+}
