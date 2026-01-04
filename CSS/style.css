@@ -24,43 +24,64 @@
 
 @font-face{
     font-family: "Chunk1";
-    src: url("fonts/Chunk.ttf") format('truetype'), url('fonts/Chunk.woff') format('woff'),url('fonts/Chunk.eot') format('embedded-opentype');
+    src: local("Chunk1"), 
+         url("fonts/Chunk.woff2") format("woff2"),
+         url("fonts/Chunk.woff") format("woff"),
+         url("fonts/Chunk.ttf") format("truetype"),
+         url("fonts/Chunk.eot") format("embedded-opentype");
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
 }
 
 /*set the background image*/
 body{
-    background-image: url("IMAGES/TCB-Processed2.png");
+    background-image: url("TCB-Processed2.png");
     background-size: cover;
     background-position: center;
     background-attachment: scroll;
     color: var(--color-white);
-     font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ff1b00;
 }
 
-.div-homeintro{
-    background-color: rgba(70, 70, 70, .5);
-    padding-left: 40px;
-    padding-right: 40px;
-    margin-top: 7vh;
-    width: 69vw;
-    height:auto;
-    white-space: wrap;
+.div-homeintro {
+  display: inline-block;      /* shrink-to-fit behavior */
+  width: auto;
+  max-width: 65vw;            /* prevent it from getting too wide */
+  padding: 1.25rem 2rem;      /* gives a "just-bigger-than-the-words" buffer */
+  box-sizing: border-box;     /* include padding in max-width */
+  background-color: rgba(70,70,70,0.8);
+  border-radius: 15px;
+  white-space: normal;
+  overflow-wrap: break-word;
+  margin: 0;                  /* spacing is handled by the flex gap */
+  align-self: center;         /* ensure vertical centering in the row */
 }
 
-.div-homeowenpic{
-    display: inline-block;
-    width: 30vw;
-    height: 90vh;
-    padding: 30px;
+/* responsive: stack image then box on narrow screens */
+@media (max-width: 800px) {
+  .div-hometop { justify-content: center; }
+  .div-homeowenpic { max-width: 80%; margin-bottom: 1rem; }
+  .div-homeintro { max-width: 95vw; padding: 1rem; }
 }
 
-.div-hometop{
-    display: flex;
-    width: 99vw;
-    height: 90vh;
+.div-homeowenpic {
+  flex: 0 0 auto;             /* keeps image its natural size */
+  max-width: 30%;             /* limit width on large screens */
+  height: auto;
+  display: block;
 }
+
+.div-hometop {
+  display: flex;
+  gap: 2rem;                  /* space between image and box */
+  align-items: center;        /* vertical centering */
+  justify-content: center;    /* centers the pair on the page */
+  flex-wrap: wrap;            /* allows stacking on small screens */
+  padding: 2rem;
+}
+
 .div-navbuttons{
     display: block;
     width: 70%; 
@@ -82,8 +103,11 @@ body{
 }
 
 h1{
-    font:bold;
+    font-family: "Chunk1", Arial, sans-serif;
+    font-size: 3.5rem;
     color: var(--color-secondary);
+    text-shadow: 2px 2px 5px var(--color-white);
+    letter-spacing: 0.05em;
 }
 
 
@@ -91,6 +115,13 @@ h1{
 h2{
     font: bold;
     color:var(--color-white);
+}
+
+.home-introparagraph{
+    font-size: 1.5rem;
+    line-height: 1.4;
+    margin-top: -15px;
+    margin-bottom: 20px;
 }
 
 .home-titlecard{
@@ -173,4 +204,42 @@ p{
 }
 p.shifted{
     margin-left: 30px;
+}
+/* Inline under-construction banner (regular flow) */
+.site-banner--inline {
+  display: block;
+  width: 100%;
+  background: var(--color-secondary, #ff1b00);
+  color: var(--color-white, #fff);
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  font-family: var(--ui-font, Arial, Helvetica, sans-serif);
+}
+
+.site-banner__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: .6rem 1rem;
+  display: flex;
+  gap: .6rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.site-banner__icon { font-size: 1.1rem; }
+.site-banner__text { text-align: center; }
+
+/* close button */
+.site-banner__close {
+  margin-left: 1rem;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: .2rem;
+}
+
+/* small screens */
+@media (max-width: 520px) {
+  .site-banner__inner { padding: .45rem .6rem; font-size: .95rem; flex-wrap: wrap; }
 }
