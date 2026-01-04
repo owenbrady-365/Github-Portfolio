@@ -32,8 +32,6 @@
 /*set the background image*/
 body{
     background-image: url("IMAGES/TCB-Processed2.png");
-    background-color:rgba(16, 11, 0, 0.5);
-    background-blend-mode: multiply;
     background-size: cover;
     background-position: center;
     background-attachment: scroll;
