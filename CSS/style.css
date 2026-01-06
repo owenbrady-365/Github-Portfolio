@@ -59,6 +59,18 @@ body{
   align-self: center;         /* ensure vertical centering in the row */
 }
 
+.div-greybackground{
+    background-color: var(--color-grey);
+    background-color: rgba(70,70,70,0.9);
+    margin: auto;
+    margin-top: 3vh; 
+    margin-bottom: 20px;
+    width: auto;
+    max-width: 95vw;
+    border-radius: 15px;
+    padding: 10px;
+}
+
 /* responsive: stack image then box on narrow screens */
 @media (max-width: 800px) {
   .div-hometop { justify-content: center; }
@@ -110,7 +122,14 @@ h1{
     letter-spacing: 0.05em;
 }
 
-
+.h1-green{
+    font-family: "Chunk1", Arial, sans-serif;
+    font-size: 3.5rem;
+    color: var(--color-a4);
+    text-shadow: 2px 2px 5px var(--color-grey);
+    letter-spacing: 0.05em;
+    margin-bottom: 2vh;
+}
 
 h2{
     font: bold;
@@ -201,6 +220,8 @@ nav ul{
 
 p{
     color:var(--color-white);
+    font-size: 1.2rem;
+    line-height: 1.6;
 }
 p.shifted{
     margin-left: 30px;
