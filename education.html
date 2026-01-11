@@ -14,7 +14,8 @@
 <div class="div-navheadermain">
     <div class="div-navbuttons">
         <nav class="nav-main">
-            <ul>
+            <button class="nav-toggle" aria-controls="primary-navigation" aria-expanded="false" aria-label="Open menu">☰</button>
+            <ul id="primary-navigation">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="careergoals.html">Career Goals</a></li>
                 <li><a href="education.html">Education</a></li>
@@ -25,7 +26,9 @@
         </nav>
     </div>
     <div class="div-navlogo">
-        <img class="img-headerlogo" src="IMAGES/OW-ENgineering -Clean.png">
+        <a href="index.html" aria-label="Home" title="Home">
+            <img class="img-headerlogo" src="IMAGES/OW-ENgineering -Clean.png" alt="Owen Brady logo">
+        </a>
     </div>
 </div>
 <body>
@@ -41,5 +44,27 @@
         relevant courses and extras, also some pics</h1>
     -->
         <h1>Education</h1>
+            <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div class="footer-left">
+          <a href="index.html" class="footer-logo" aria-label="Home">
+            <img src="IMAGES/OW-ENgineering -Clean.png" alt="Owen Brady logo">
+          </a>
+        </div>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="index.html">Home</a>
+          <a href="education.html">Education</a>
+          <a href="workhistory.html">Work History</a>
+          <a href="awardsandrecognitions.html">Awards</a>
+          <a href="projects.html">Projects</a>
+        </nav>
+        <div class="footer-contact">
+          <a href="mailto:owen@owenbrady.ca">owen@owenbrady.ca</a>
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://www.instagram.com/itsowenbrady/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+      <div class="site-footer__copy">© 2026 Owen Brady — <a href="#top">Back to top</a></div>
+    </footer>
 </body>
 </html>

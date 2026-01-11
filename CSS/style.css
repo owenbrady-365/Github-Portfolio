@@ -45,7 +45,7 @@
 /*set the background image*/
 body{
     background-image: url("TCB-Processed2.png");
-    background-size: cover;
+    background-size:100vw;
     background-position: center;
     background-attachment: scroll;
     color: var(--color-white);
@@ -103,24 +103,47 @@ body{
 }
 
 .div-navbuttons{
-    display: block;
-    width: 70%; 
+    display: flex;
+    flex: 1 1 auto;
     align-items: center;
+    min-width: 0; /* allow flex items to shrink without overflowing */
 }
 
 .div-navheadermain{
     background-color: var(--color-white);
-    padding-bottom: 10px;
-    padding-top: 0px;
+    padding: clamp(.5rem, 1.5vw, 1rem);
     display: flex;
-    height: 9%;
-}
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(.5rem, 2vw, 1.5rem);
+    width: 100%;
+    box-sizing: border-box;
+} 
 
 .div-navlogo{
-    width: 25%;
-    padding: 1px;
-    position:  relative; left: 7%;
+    padding-left: clamp(.25rem, 1vw, .75rem);
+    display: flex;
+    align-items: center;
+    margin-left: 0;
+} 
+
+.div-navlogo a{
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 }
+
+.div-navlogo a:focus-visible{
+  outline: 3px solid rgba(0,0,0,0.6);
+  border-radius: 6px;
+}
+
+.img-headerlogo{
+    max-height: clamp(40px, 6vh, 64px); /* responsive logo sizing */
+    width: auto;
+    height: auto;
+    padding: 6px;
+} 
 
 h1{
     font-family: "Chunk1", Arial, sans-serif;
@@ -136,7 +159,24 @@ h1{
     color: var(--color-a4);
     text-shadow: 2px 2px 5px var(--color-grey);
     letter-spacing: 0.05em;
-    margin-bottom: 2vh;
+    margin: 0; /* spacing handled by .page-header */
+}
+
+/* Page header wrapper for section titles */
+.page-header{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1rem;
+  background: rgba(0,0,0,0.25);
+  border-radius: 12px;
+  margin: 0 0 1rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+@media (max-width: 520px){
+  .page-header{ padding: .45rem .6rem; }
+  .h1-green{ font-size: 1.6rem; }
 }
 
 h2{
@@ -172,11 +212,12 @@ html,body {
     margin:0;
     padding:0;
     height: 100%;
+    overflow-x: hidden; /* ensure no accidental horizontal scroll */
 }
 
 .img-headerlogo{
     width: auto;
-    height: 80%;
+    height: 6vh;
     padding:  8px;
 }
 
@@ -189,31 +230,43 @@ html,body {
 }
 
 nav a{
-    display: flex;
-    padding: .5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .45rem .8rem;
     text-decoration: none;
-    color: #0f0f0f;
-    font-size: 3.5vh;
+    color: #ffffff;
+    font-family: 'Chunk1', Arial, sans-serif; /* use theme font */
+    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
     background-color: var(--color-primary);
     border-radius: 8px;
-    height: auto;
-    max-height: 50px;
-    width: auto;
+    min-height: 3vh;
+    max-height: 6vh;
+    box-sizing: border-box;
     white-space: nowrap;
+    flex-shrink: 0; /* prevent links from shrinking and wrapping */
+} 
+
+nav a:hover,
+nav a:focus {
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    outline:none;
+    outline-width: 100%;
+    box-shadow: 0 0 0 3px rgba(255,27,0,0.12);
 }
+
+nav li{
+    margin: 0;
+} 
 
 nav a:hover{
     background-color: var(--color-secondary);
 }
 
-nav li{
-    margin: 1%;
-}
-
 .nav-main{
-    display: block;
+    display: flex;
     align-items: center;
-    width: 65vw;
     font-family: 'Chunk1';
 }
 
@@ -221,10 +274,36 @@ nav ul{
     display: flex;
     list-style: none;
     margin: 0;
-    padding: 10px;
-    width: 50%;
-    position: relative;  left: 2%;
+    padding: 0;
+    gap: clamp(.4rem, 1.2vw, 1rem);
+    align-items: center;
+    flex-wrap: nowrap; /* keep all buttons on one row */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
+
+/* Make nav items size to their content (buttons scale to text) */
+nav ul li {
+  flex: 0 0 auto; /* size to content instead of stretching */
+}
+
+nav a{
+  width: auto; /* size to content */
+  justify-content: center;
+  white-space: nowrap; /* keep label on one line */
+}
+
+/* Toggle button (hidden on wide screens) */
+.nav-toggle{
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  padding: .35rem .6rem;
+  cursor: pointer;
+}
+
+.nav-toggle:focus{ outline: 3px solid rgba(0,0,0,0.12); border-radius: 6px; }  
 
 p{
     color:var(--color-white);
@@ -269,8 +348,23 @@ p.shifted{
 }
 
 /* small screens */
+@media (max-width: 720px) {
+  .site-banner__inner { padding: .45rem .6rem; font-size: .95rem; flex-wrap: wrap; }
+  .div-navheadermain { flex-direction: row; align-items: center; padding: .5rem; }
+  .div-navlogo { text-align: left; width: auto; }
+  .nav-main { width: auto; }
+  /* show hamburger and hide inline nav on small screens */
+  .nav-toggle{ display: inline-flex; }
+  nav ul{ display: none; position: absolute; left: 0; right: 0; top: 100%; background: var(--color-white); flex-direction: column; gap: .4rem; padding: .75rem; box-shadow: 0 6px 18px rgba(0,0,0,0.15); z-index: 40; }
+  nav.open ul{ display: flex; }
+  nav ul li { flex: none; }
+  nav a { width: 100%; justify-content: flex-start; padding-left: 1rem; }
+}
+
+/* small screens narrow but still visible */
 @media (max-width: 520px) {
   .site-banner__inner { padding: .45rem .6rem; font-size: .95rem; flex-wrap: wrap; }
+  nav a { font-size: 0.95rem; }
 }
 
 /* Awards grid */.awards-controls { margin: .75rem 0; display: flex; gap: .5rem; align-items: center; }.awards-grid {
@@ -345,6 +439,36 @@ p.shifted{
 } 
 
 .award-body a { color: var(--color-a5); text-decoration: underline; }
+
+/* Footer */
+.site-footer{
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-white);
+  margin-top: 2.5rem;
+}
+.site-footer__inner{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+.footer-left .footer-logo img{ max-height: 48px; }
+.footer-links{ display: flex; gap: .75rem; align-items: center; }
+.footer-links a, .footer-contact a{ color: var(--color-bg); text-decoration: underline; }
+.footer-contact{ display:flex; gap:.6rem; align-items:center; }
+.site-footer__copy{ text-align:center; padding:.6rem; font-size:.9rem; opacity: .9; background: rgba(0,0,0,0.06); }
+
+@media (max-width: 700px){
+  .site-footer__inner{ flex-direction: column; align-items: center; text-align:center; }
+  .footer-left{ order: 1; }
+  .footer-links{ order: 2; flex-wrap: wrap; justify-content:center; }
+  .footer-contact{ order: 3; }
+}
 
 /* Responsive breakpoints */
 @media (max-width: 900px) {
