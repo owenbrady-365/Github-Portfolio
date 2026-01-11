@@ -20,7 +20,15 @@
     --color-a3:#009999;/*dark cyan*/
     --color-a4:#199907;/*forest green*/
     --color-a5:#999900; /*olive*/
-}
+
+    /* Awards layout variables */
+    --award-title-height: 2.4rem; /* estimated height for title (can be tuned) */
+    --award-meta-height: 1.2rem;  /* estimated height for meta text */
+    --award-body-padding-vertical: 1rem; /* top + bottom padding reserved inside body */
+    --award-body-min: calc(var(--award-title-height) + var(--award-meta-height) + var(--award-body-padding-vertical)); /* reserve space for title + meta + padding */
+    --award-title-bg: rgba(0,0,0,0.45); /* darker background for title container */
+    --award-title-color: var(--color-white);
+} 
 
 @font-face{
     font-family: "Chunk1";
@@ -267,53 +275,83 @@ p.shifted{
 
 /* Awards grid */
 .awards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(20vw, 1fr)); /* responsive column count */
+  grid-auto-rows: auto; /* rows size to their content so each card can scale to image aspect ratio */
   gap: 1.25rem;
-  align-items: start;
+  align-items:center;
   margin-top: 1rem;
-}
+} 
 
 .award-card {
-  background-color: rgba(255,255,255,0.06);
+  display: flex;
+  padding-top: 2vh;
+  padding-left: 1vh;
+  padding-right: 1vh;
+  flex-direction: column;
+  height: auto; /* let content (image) determine height */
+  min-height: 0;
+  max-height: fit-content; /* cap card height so extremely tall images remain reasonable */
+  background-color: rgba(220, 12, 12, 0.15);
   border-radius: 10px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
   align-items: stretch;
   box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-}
+} 
 
 .award-image {
   width: 100%;
-  height: 160px;
-  object-fit: cover;
   display: block;
-}
+  padding: 0.25rem; /* small padding so the image isn't flush against rounded corners */
+  box-sizing: border-box;
+  object-fit: contain; /* ensure the full image is visible */
+  height: auto; /* preserve intrinsic aspect ratio */
+  max-height: 35vh; /* cap image while leaving room for body padding */
+  align-self: center;
+}  
 
 .award-body {
   padding: 0.75rem 1rem;
-}
+  flex: 0 1 auto; /* allow the body to grow/shrink as needed to accommodate meta */
+  min-height: min-content; /* size the body to its content so it doesn't create extra empty space */
+  color: var(--color-white);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: visible;
+  overflow-wrap: break-word; /* ensure long words wrap */
+}  
 
 .award-title {
   margin: 0 0 0.25rem 0;
-  font-size: 1.1rem;
-  color: var(--color-white);
-}
+  font-size: 1.05rem;
+  font-family: "Chunk1", Arial, sans-serif; /* theme font */
+  color: var(--award-title-color); /* separate title color */
+  font-weight: 700;
+  line-height: 1.18;
+  overflow-wrap: anywhere; /* make long words wrap to avoid cutoff */
+
+  /* Title container styling */
+  display: inline-block; /* shrink-to-fit inside the body padding */
+  background: var(--award-title-bg);
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.2);
+} 
 
 .award-meta {
   margin: 0;
   font-size: 0.95rem;
   color: var(--color-a3);
-}
+  overflow-wrap: anywhere; /* prevent truncation */
+  line-height: 1.25;
+} 
 
-.award-body a { color: var(--color-secondary); text-decoration: underline; }
+.award-body a { color: var(--color-a5); text-decoration: underline; }
 
 /* Responsive breakpoints */
 @media (max-width: 900px) {
   .awards-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 520px) {
-  .awards-grid { grid-template-columns: 1fr; }
-  .award-image { height: 220px; }
+  .awards-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .award-image { max-height: calc(45vh - var(--award-body-min)); }
 }
