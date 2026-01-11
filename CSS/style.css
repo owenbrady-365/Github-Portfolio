@@ -273,8 +273,7 @@ p.shifted{
   .site-banner__inner { padding: .45rem .6rem; font-size: .95rem; flex-wrap: wrap; }
 }
 
-/* Awards grid */
-.awards-grid {
+/* Awards grid */.awards-controls { margin: .75rem 0; display: flex; gap: .5rem; align-items: center; }.awards-grid {
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(20vw, 1fr)); /* responsive column count */
   grid-auto-rows: auto; /* rows size to their content so each card can scale to image aspect ratio */

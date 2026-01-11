@@ -11,6 +11,7 @@
         <meta name="viewport" content="width-devicewidth, initial-scale=1.0">
         <title>Owen Brady</title>
         <link rel="stylesheet" href="CSS/style.css">
+        <script src="JS/awards.js" defer></script>
     </head>
 <div class="div-navheadermain">
     <div class="div-navbuttons">
@@ -42,58 +43,65 @@
     <p> Over the years, I have been honored with various awards and recognitions. </p>
     
         <p>The list of awards and honors include these</p>
-        <div class="awards-grid">
-            <div class="award-card">
+        <div class="awards-controls">
+            <label for="sort-select">Sort by:</label>
+            <select id="sort-select" aria-label="Sort awards">
+                <option value="level" selected>Level (default)</option>
+                <option value="date">Date (newest first)</option>
+            </select>
+        </div>
+
+        <div class="awards-grid" aria-live="polite">
+            <div class="award-card" data-level="certificate" data-date="2017-06-01">
                 <img class="award-image" src="IMAGES/AaRphotos/claremont.png" alt="Dogwood diploma">
                 <div class="award-body">
                   <h3 class="award-title">Dogwood Diploma</h3>
                   <p class="award-meta">2017</p>
                 </div>
             </div>
-            <div class="award-card">
+            <div class="award-card" data-level="award" data-date="2017-06-01">
                 <img class="award-image" src="IMAGES/AaRphotos/John_Pringle_Technology.jpg" alt="John Pringle Technology Award">
                 <div class="award-body">
                   <h3 class="award-title">John Pringle Technology Award</h3>
                   <p class="award-meta">2017</p>
                 </div>
             </div>
-            <div class="award-card">
+            <div class="award-card" data-level="certificate" data-date="2018-07-15">
                 <img class="award-image" src="IMAGES/AaRphotos/blackbelt.jpg" alt="Black belt 1st degree certificate">
                 <div class="award-body">
-                  <h3 class="award-title">1st Degree Black Belt - Wado Kai</h3>
-                <p class="award-meta">2018</p>
+                  <h3 class="award-title">1st Degree Black Belt - Wado Ryu</h3>
+                  <p class="award-meta">2018</p>
                 </div>
             </div>
-            <div class="award-card">
+            <div class="award-card" data-level="honor" data-date="2024-09-01">
                 <img class="award-image" src="IMAGES/AaRphotos/CC_Honor_Roll.png" alt="Dean's honor roll 2024F">
                 <div class="award-body">
                   <h3 class="award-title">Dean's Honor Roll</h3>
                   <p class="award-meta">2024 F</p>
                 </div>
             </div>
-            <div class="award-card">
+            <div class="award-card" data-level="honor" data-date="2025-01-01">
                 <img class="award-image" src="IMAGES/AaRphotos/CC_Honor_Roll.png" alt="Dean's honor roll 2025W">
                 <div class="award-body">
                   <h3 class="award-title">Dean's Honor Roll</h3>
                   <p class="award-meta">2025 W</p>
                 </div>
             </div>
-            <div class="award-card">
+            <div class="award-card" data-level="honor" data-date="2025-09-01">
                 <img class="award-image" src="IMAGES/AaRphotos/CC_Honor_Roll.png" alt="Dean's honor roll 2025F">
                 <div class="award-body">
                   <h3 class="award-title">Dean's Honor Roll</h3>
                   <p class="award-meta">2025 F</p>
                 </div>
             </div>
-            <div class="award-card">
+            <div class="award-card" data-level="scholarship" data-date="2025-04-10">
                 <img class="award-image" src="IMAGES/AaRphotos/Roy_F_Lima_scholarship.jpg" alt="Roy F. Lima Memorial Scholarship">
                 <div class="award-body">
                   <h3 class="award-title">Roy F. Lima Memorial Scholarship</h3>
-                  <p class="award-meta">2025 Technology Awards<br><a href="https://www.linkedin.com/posts/pbx-engineering_pbx-director-andrew-townend-peng-attended-activity-7346211974310961152-e9aE?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD97-wcBATzl-OMs3lyHdTa5iJb4Gcds_Dw">
-                    PBX Engineering LinkedIn Post</a>
+                  <p class="award-meta">2025 Technology Awards<br><a href="https://www.linkedin.com/posts/pbx-engineering_pbx-director-andrew-townend-peng-attended-activity-7346211974310961152-e9aE?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD97-wcBATzl-OMs3lyHdTa5iJb4Gcds_Dw">PBX Engineering LinkedIn Post</a></p>
                 </div>
             </div>
-            <div class="award-card">
+            <div class="award-card" data-level="certificate" data-date="2025-06-01">
                 <img class="award-image" src="IMAGES/AaRphotos/mech_eng_access.jpg" alt="Mechanical engineering technology access with distinction">
                 <div class="award-body">
                   <h3 class="award-title">Mechanical Engineering Technology — Access with Distinction</h3>
