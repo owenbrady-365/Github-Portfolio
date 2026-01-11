@@ -87,10 +87,11 @@ body{
 }
 
 .div-homeowenpic {
+  position: relative; /* establish a positioning context for the title card */
   flex: 0 0 auto;             /* keeps image its natural size */
   max-width: 30%;             /* limit width on large screens */
   height: auto;
-  display: block;
+  display: inline-block; /* shrink-to-fit to the image */
 }
 
 .div-hometop {
@@ -194,18 +195,19 @@ h2{
 .home-titlecard{
     display: inline-flex;
     width: auto;
-    height: 90px;
-    padding: 10px;
-    position:absolute;
-    bottom: -20px;
-    left:90px;
+    padding: .5rem 1rem;
+    position: absolute;
+    bottom: 0.75rem; /* sit slightly above the image bottom */
+    left: 50%;
+    transform: translateX(-50%); /* center under the image */
     background-color: var(--color-primary);
-    border-radius: 30%;
+    border-radius: 999px; /* pill shape */
     font-family: Arial, Helvetica, sans-serif;
     white-space: nowrap;
-    font-size: 2rem;
-    line-height: .5;
+    font-size: clamp(1rem, 2.2vw, 1.6rem);
+    line-height: 1;
     align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
 }
 
 html,body {
@@ -225,7 +227,9 @@ html,body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    height: 85vh;
+    width: 100%;   /* fill the container */
+    height: auto;  /* preserve aspect ratio */
+    max-height: 85vh; /* still cap overall height */
     padding: 5px;
 }
 
