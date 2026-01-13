@@ -47,16 +47,16 @@ body{
     background-image: url("TCB-Processed2.png");
     background-size:100vw;
     background-position: center;
-    background-attachment: scroll;
+    background-attachment:scroll;
     color: var(--color-white);
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #ff1b00;
+    background-color: var(--color-bg);
 }
 
 .div-homeintro {
   display: inline-block;      /* shrink-to-fit behavior */
   width: auto;
-  max-width: 65vw;            /* prevent it from getting too wide */
+  max-width: 55vw;            /* prevent it from getting too wide */
   padding: 1.25rem 2rem;      /* gives a "just-bigger-than-the-words" buffer */
   box-sizing: border-box;     /* include padding in max-width */
   background-color: rgba(70,70,70,0.8);
@@ -96,11 +96,11 @@ body{
 
 .div-hometop {
   display: flex;
-  gap: 2rem;                  /* space between image and box */
+  gap: 0rem;                  /* space between image and box */
   align-items: center;        /* vertical centering */
   justify-content: center;    /* centers the pair on the page */
   flex-wrap: wrap;            /* allows stacking on small screens */
-  padding: 2rem;
+  padding: 1vh;
 }
 
 .div-navbuttons{
@@ -163,20 +163,37 @@ h1{
     margin: 0; /* spacing handled by .page-header */
 }
 
+.h1-red{
+    font-family: "Chunk1", Arial, sans-serif;
+    font-size: 3.5rem;
+    color: var(--color-secondary);
+    text-shadow: 2px 2px 5px var(--color-white);
+    letter-spacing: 0.05em;
+    margin: 0; /* spacing handled by .page-header */
+}
+
 /* Page header wrapper for section titles */
 .page-header{
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.6rem 1rem;
+  width: fit-content; /* shrink to the width of its contents */
+  padding: 1rem 2rem; /* small horizontal padding so box is slightly wider than the text */
   background: rgba(0,0,0,0.25);
   border-radius: 12px;
-  margin: 0 0 1rem 0;
+  margin: 0 auto 1rem; /* center the box horizontally */
   box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 
+/* Make sure the heading inside doesn't add unwanted extra width */
+.page-header h1{
+  margin: 0;
+  display: inline-block; /* keep it shrink-to-fit inside the box */
+  padding: 0; /* spacing handled by the .page-header */
+}
+
 @media (max-width: 520px){
-  .page-header{ padding: .45rem .6rem; }
+  .page-header{ padding: .45rem .6rem; width: fit-content; margin: 0 auto .75rem; }
   .h1-green{ font-size: 1.6rem; }
 }
 
@@ -188,28 +205,14 @@ h2{
 .home-introparagraph{
     font-size: 1.5rem;
     line-height: 1.4;
-    margin-top: -15px;
+    margin-top: 0.3vh;
     margin-bottom: 20px;
 }
 
-.home-titlecard{
-    display: inline-flex;
-    width: auto;
-    padding: .5rem 1rem;
-    position: absolute;
-    bottom: 0.75rem; /* sit slightly above the image bottom */
-    left: 50%;
-    transform: translateX(-50%); /* center under the image */
-    background-color: var(--color-primary);
-    border-radius: 999px; /* pill shape */
-    font-family: Arial, Helvetica, sans-serif;
-    white-space: nowrap;
-    font-size: clamp(1rem, 2.2vw, 1.6rem);
-    line-height: 1;
-    align-items: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+.home-introparagraph a{
+    color: var(--color-a4);
+    text-decoration: underline;
 }
-
 html,body {
     margin:0;
     padding:0;
@@ -227,9 +230,9 @@ html,body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 100%;   /* fill the container */
-    height: auto;  /* preserve aspect ratio */
-    max-height: 85vh; /* still cap overall height */
+    width: auto;   
+    height: 80vh; 
+    max-height: 85vh; 
     padding: 5px;
 }
 
@@ -371,6 +374,62 @@ p.shifted{
   nav a { font-size: 0.95rem; }
 }
 
+/* Quotes tiled section */
+.quotes-section {
+  max-width: 95vw;
+  margin: 1.5rem auto;
+  padding: 0 0.5rem;
+}
+.quotes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25vw, 1fr));
+  gap: 1rem;
+  align-items: center;
+  grid-auto-rows: auto;
+}
+.quote-card {
+  background: rgba(197, 44, 44, 0.45);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 120px;
+}
+.quote-card blockquote {
+  margin: 0;
+  font-style: italic;
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+.quote-author {
+  margin-top: 0.75rem;
+  font-weight: 600;
+  text-align: right;
+  color: var(--color-a5);
+  font-style: normal;
+}
+.quote-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  min-height: 120px;
+}
+.photo-caption {
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--color-white);
+  text-align: center;
+}
+/* make a couple of photos span two rows on larger screens for variation */
+@media (min-width: 900px) {
+  .quote-photo--tall { grid-row: span 2; min-height: 260px; }
+}
+
 /* Awards grid */.awards-controls { margin: .75rem 0; display: flex; gap: .5rem; align-items: center; }.awards-grid {
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(20vw, 1fr)); /* responsive column count */
@@ -461,11 +520,11 @@ p.shifted{
   box-sizing: border-box;
   flex-wrap: wrap;
 }
-.footer-left .footer-logo img{ max-height: 48px; }
+.footer-left .footer-logo img{ max-height: 75px; }
 .footer-links{ display: flex; gap: .75rem; align-items: center; }
-.footer-links a, .footer-contact a{ color: var(--color-bg); text-decoration: underline; }
-.footer-contact{ display:flex; gap:.6rem; align-items:center; }
-.site-footer__copy{ text-align:center; padding:.6rem; font-size:.9rem; opacity: .9; background: rgba(0,0,0,0.06); }
+.footer-links a{ color: var(--color-white); text-decoration: underline; }
+.footer-contact a{ display:flex; gap:.6rem; align-items:center; color: var(--color-bg);}
+.site-footer__copy{ text-align:center; padding:.6rem; font-size:.9rem; opacity: .9; background: rgba(0, 0, 0, 0.901); }
 
 @media (max-width: 700px){
   .site-footer__inner{ flex-direction: column; align-items: center; text-align:center; }
