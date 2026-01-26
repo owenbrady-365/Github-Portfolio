@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Owen Brady - Daily Integration</title>
+  <link rel="stylesheet" href="CSS/style.css">
+  <script src="JS/nav.js" defer></script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R8RYRSN9PX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-R8RYRSN9PX');
+  </script>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };
+  </script>
+  <script src="Libraries/MathJax/es5/tex-chtml.js"></script>
+  <script src="Libraries/Algebrite-master/dist/algebrite.bundle-for-browser.js"></script>
+
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; }
+    h1 { text-align: center; font-size: 3em; margin-bottom: 1rem; }
+    select, button { font-size: 1em; padding: 6px 10px; margin: 0 5px 1rem 0; }
+    .row { margin: 15px 0; font-size: 1.5rem; text-align: center; }
+    .box { border: 1px solid #ccc; padding: 15px; max-width: 60vw; margin: 0 auto 1rem; font-size: 1.3rem; }
+    .hidden { display: none; }
+    .label { font-style: italic; margin-top: 10px; text-align: center; }
+    .div-greybackground { display: flex; flex-direction: column; align-items: center; min-height: 50vh; padding: 20px; }
+    .buttons button { margin-right: 10px; }
+  </style>
+</head>
+
+<body>
+
+<header class="div-navheadermain">
+  <div class="div-navbuttons">
+    <nav class="nav-main">
+      <button class="nav-toggle" aria-controls="primary-navigation" aria-expanded="false" aria-label="Open menu">☰</button>
+      <ul id="primary-navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="careergoals.html">Career Goals</a></li>
+        <li><a href="education.html">Education</a></li>
+        <li><a href="workhistory.html">Work History</a></li>
+        <li><a href="awardsandrecognitions.html">Awards and Recognitions</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="dailyintegrations.html">Daily Integrations</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="div-navlogo">
+    <a href="index.html" aria-label="Home" title="Home">
+      <img class="img-headerlogo" src="IMAGES/Logos/OW-ENgineering -Clean.png" alt="Owen Brady logo">
+    </a>
+  </div>
+</header>
+
+<main class="div-greybackground" role="main">
+  <h1 class="h1-purple">Daily Integration</h1>
+
+  <div class="row">
+    <select id="day"></select>
+    <select id="month"></select>
+    <select id="year"></select>
+    <button id="todayBtn">Today</button>
+    <button id="randomBtn">Random</button>
+  </div>
+
+  <div class="row" id="instruction"></div>
+  <div class="box" id="problem"></div>
+
+  <div class="row buttons">
+    <button id="showAnswerBtn">Show Answer</button>
+    <button id="showTypeBtn">Show Problem Type</button>
+  </div>
+
+  <div class="label hidden" id="typeLabel"></div>
+  <div class="box hidden" id="answerBox"></div>
+  <p>The SHOW ANSWER button is not working correctly. Please use Mathway or another solution provider when the solution is not generated here.</p> 
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="footer-left">
+      <a href="index.html" class="footer-logo" aria-label="Home">
+        <img src="IMAGES/Logos/logo with flare.png" alt="Owen Brady logo">
+      </a>
+    </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="index.html">Home</a>
+      <a href="education.html">Education</a>
+      <a href="workhistory.html">Work History</a>
+      <a href="awardsandrecognitions.html">Awards and Recognitions</a>
+      <a href="projects.html">Projects</a>
+      <a href="dailyintegrations.html">Daily Integrations</a>
+    </nav>
+    <div class="footer-contact">
+      <a href="mailto:owen@owenbrady.ca">owen@owenbrady.ca</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.instagram.com/itsowenbrady/" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+  <div class="site-footer__copy">© 2026 Owen Brady — <a href="#top">Back to top</a></div>
+</footer>
+
+<script>
+/* ======================
+   Deterministic RNG
+====================== */
+function mulberry32(seed) {
+  return function() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+function randInt(r,a,b){ return Math.floor(r()*(b-a+1))+a; }
+
+/* ======================
+   Generators 
+====================== */
+const generators = [
+  // 1. General power u-substitution
+  {
+    weight: 2,
+    label: "u-substitution (general power)",
+    gen(r) {
+      const a = randInt(r, 2, 6);
+      const b = randInt(r, -5, 5);
+      const p = randInt(r, 2, 5);
+      const u = `${a}*x${b >= 0 ? "+" : ""}${b}`;
+      return {
+        expr: `(${u})^${p}*(${a})`,
+        latex: `\\int (${u.replace("*","")})^{${p}}\\,(${a})\\,dx`
+      };
+    }
+  },
+
+  // 2. Logarithmic u-substitution
+  {
+    weight: 1.5,
+    label: "u-substitution (logarithmic)",
+    gen(r) {
+      const a = randInt(r, 1, 3);
+      const b = randInt(r, -4, 4);
+      return {
+        expr: `(${a}*x+${b})/(x^2+${b}*x+${a})`,
+        latex: `\\int \\frac{${a}x${b >= 0 ? "+" : ""}${b}}{x^2${b >= 0 ? "+" : ""}${b}x+${a}}\\,dx`
+      };
+    }
+  },
+
+  // 3. Exponential u-substitution
+  {
+    weight: 1.5,
+    label: "u-substitution (exponential)",
+    gen(r) {
+      const a = randInt(r, 1, 3);
+      const b = randInt(r, 1, 3);
+      return {
+        expr: `(${a}*x+${b})*exp(${a}*x^2+${b}*x)`,
+        latex: `\\int (${a}x${b >= 0 ? "+" : ""}${b}) e^{${a}x^2${b >= 0 ? "+" : ""}${b}x}\\,dx`
+      };
+    }
+  },
+
+  // 4. Trigonometric u-substitution with full identity coverage
+  {
+    weight: 2,
+    label: "u-substitution (trigonometric)",
+    gen(r) {
+      const a = randInt(r, 1, 4);
+      const b = randInt(r, -3, 3);
+      const u = `${a}*x${b >= 0 ? "+" : ""}${b}`;
+      const choice = randInt(r, 0, 4); // 5 trig identity options
+      switch(choice) {
+        case 0: // sin(u)*cos(u)
+          return {
+            expr: `sin(${u})*cos(${u})`,
+            latex: `\\int \\sin(${u.replace("*","")})\\cos(${u.replace("*","")})\\,dx`
+          };
+        case 1: // sin^2(u)
+          return {
+            expr: `sin(${u})^2`,
+            latex: `\\int \\sin^2(${u.replace("*","")})\\,dx`
+          };
+        case 2: // cos^2(u)
+          return {
+            expr: `cos(${u})^2`,
+            latex: `\\int \\cos^2(${u.replace("*","")})\\,dx`
+          };
+        case 3: // tan^2(u)
+          return {
+            expr: `tan(${u})^2`,
+            latex: `\\int \\tan^2(${u.replace("*","")})\\,dx`
+          };
+        case 4: // sec^2(u)
+          return {
+            expr: `sec(${u})^2`,
+            latex: `\\int \\sec^2(${u.replace("*","")})\\,dx`
+          };
+      }
+    }
+  },
+
+  // 5. Inverse trig u-substitution requiring complete-the-square
+  {
+    weight: 1,
+    label: "u-substitution (inverse trig / complete the square)",
+    gen(r) {
+      const a = randInt(r, 1, 3);
+      const b = randInt(r, -5, 5);
+      const c = randInt(r, 1, 5);
+      const useSqrt = r() < 0.5; // choose sqrt form or 1/(ax^2+bx+c)
+      if(useSqrt){
+        // 1/sqrt(a*x^2 + b*x + c) → need to complete the square
+        return {
+          expr: `1/sqrt(${a}*x^2${b >= 0 ? "+" : ""}${b}*x${c >= 0 ? "+" : ""}${c})`,
+          latex: `\\int \\frac{1}{\\sqrt{${a}x^2${b >= 0 ? "+" : ""}${b}x${c >= 0 ? "+" : ""}${c}}}\\,dx`,
+          method: "complete_the_square",
+          inv: "asin"
+        };
+      } else {
+        // 1/(ax^2+bx+c) → atan form after completing the square
+        return {
+          expr: `1/(${a}*x^2${b >= 0 ? "+" : ""}${b}*x${c >= 0 ? "+" : ""}${c})`,
+          latex: `\\int \\frac{1}{${a}x^2${b >= 0 ? "+" : ""}${b}x${c >= 0 ? "+" : ""}${c}}\\,dx`,
+          method: "complete_the_square",
+          inv: "atan"
+        };
+      }
+    }
+  },
+
+  // Extra: integration by parts
+  {
+  weight: 1,
+  label: "integration by parts",
+  gen(r) {
+    // Random polynomial degree 1-4
+    const deg = randInt(r, 1, 2);
+    const poly = Array.from({length: deg+1}, (_, i) => {
+      const coef = randInt(r, -9, 9);
+      if(coef === 0) return null;
+      return `${coef===1?'':coef}*x${i>0?'^'+i:''}`;
+    }).filter(Boolean).join(" + ");
+    
+    // Random exponential coefficient
+    const a = randInt(r, 1, 4);
+    
+    return {
+      expr: `(${poly})*exp(${a}*x)`,
+      latex: `\\int (${poly.replace(/\*/g,'')}) e^{${a}x}\\,dx`
+    };
+  }
+},
+
+  // Extra: tabular integration
+  {
+  weight: 0.5,
+  label: "tabular integration",
+  gen(r) {
+    // Random polynomial degree 2-5
+    const deg = randInt(r, 1, 2);
+    const poly = Array.from({length: deg+1}, (_, i) => {
+      const coef = randInt(r, -9, 9);
+      if(coef === 0) return null;
+      return `${coef===1?'':coef}*x${i>0?'^'+i:''}`;
+    }).filter(Boolean).join(" + ");
+    
+    // Random exponential coefficient
+    const a = randInt(r, 1, 3);
+    
+    return {
+      expr: `(${poly})*exp(${a}*x)`,
+      latex: `\\int (${poly.replace(/\*/g,'')}) e^{${a}x}\\,dx`
+    }
+  }
+}
+];
+
+
+
+function weightedChoice(r){
+  const total = generators.reduce((s,g)=>s+g.weight,0);
+  let x = r()*total;
+  for(const g of generators){
+    if(x<g.weight) return g;
+    x -= g.weight;
+  }
+}
+
+/* ======================
+   State & Generate
+====================== */
+let current = null;
+const day=document.getElementById("day"),
+      month=document.getElementById("month"),
+      year=document.getElementById("year"),
+      problem=document.getElementById("problem"),
+      instruction=document.getElementById("instruction"),
+      answerBox=document.getElementById("answerBox"),
+      typeLabel=document.getElementById("typeLabel"),
+      showAnswerBtn=document.getElementById("showAnswerBtn"),
+      showTypeBtn=document.getElementById("showTypeBtn"),
+      todayBtn=document.getElementById("todayBtn"),
+      randomBtn=document.getElementById("randomBtn");
+
+function generate(){
+  const y=+year.value, m=+month.value, d=+day.value;
+  const r = mulberry32(y*10000 + m*100 + d);
+  const g = weightedChoice(r);
+  const p = g.gen(r);
+
+  current = {...p, type:g.label};
+  problem.innerHTML = `$$${p.latex}$$`;
+  instruction.innerText="Find the antiderivative:";
+  answerBox.classList.add("hidden");
+  typeLabel.classList.add("hidden");
+  MathJax.typeset();
+}
+
+/* ======================
+   Answer & Type Buttons
+====================== */
+showAnswerBtn.onclick = ()=>{
+  if(!current) return;
+
+  let result;
+  try {
+    // Integrate expression
+    const F = Algebrite.integral(current.expr).toString();
+
+    if(current.definite && current.bounds){
+      // Only numeric bounds
+      const aVal = Number(current.bounds.a);
+      const bVal = Number(current.bounds.b);
+      if(!isNaN(aVal) && !isNaN(bVal)){
+        result = Algebrite.eval(`float(subst(x,${bVal},${F}) - subst(x,${aVal},${F}))`).toString();
+      } else {
+        result = F + " + C"; // fallback
+      }
+    } else {
+      result = F + " + C";
+    }
+  } catch(e){
+    result = "Unable to compute answer with Algebrite.";
+    console.error(e);
+  }
+
+  answerBox.innerHTML=`$$${result}$$`;
+  answerBox.classList.remove("hidden");
+  MathJax.typeset();
+};
+
+
+showTypeBtn.onclick = ()=>{
+  typeLabel.innerText=current.type;
+  typeLabel.classList.remove("hidden");
+};
+
+/* ======================
+   Date Controls
+====================== */
+const today=new Date();
+for(let i=1;i<=31;i++) day.add(new Option(i,i));
+["January","February","March","April","May","June","July","August","September","October","November","December"]
+  .forEach((m,i)=>month.add(new Option(m,i+1)));
+for(let y=1990;y<=today.getFullYear();y++) year.add(new Option(y,y));
+
+day.value=today.getDate();
+month.value=today.getMonth()+1;
+year.value=today.getFullYear();
+
+day.onchange=month.onchange=year.onchange=generate;
+
+todayBtn.onclick=()=>{
+  day.value=today.getDate();
+  month.value=today.getMonth()+1;
+  year.value=today.getFullYear();
+  generate();
+};
+
+randomBtn.onclick=()=>{
+  const start=new Date(1990,0,1).getTime();
+  const end=new Date().getTime();
+  const d=new Date(start+Math.random()*(end-start));
+  day.value=d.getDate();
+  month.value=d.getMonth()+1;
+  year.value=d.getFullYear();
+  generate();
+};
+
+generate();
+</script>
+
+</body>
+</html>
