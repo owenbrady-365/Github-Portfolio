@@ -4,15 +4,15 @@
     -introduction section
     -filters for projects
     -<div> tiles for projects
-    -
 -->
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width-devicewidth, initial-scale=1.0">
-        <title>Owen Brady</title>
+        <title>Owen Brady - Projects</title>
         <link rel="stylesheet" href="CSS/style.css">
         <script src="JS/nav.js" defer></script>
+        <script src="JS/projects.js" defer></script>
     </head>
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-R8RYRSN9PX"></script>
@@ -29,9 +29,7 @@
             <button class="nav-toggle" aria-controls="primary-navigation" aria-expanded="false" aria-label="Open menu">☰</button>
             <ul id="primary-navigation">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="careergoals.html">Career Goals</a></li>
                 <li><a href="education.html">Education</a></li>
-                <li><a href="workhistory.html">Work History</a></li>
                 <li><a href="awardsandrecognitions.html">Awards and Recognitions</a></li>
                 <li><a href="projects.html">Projects</a></li>
                 <li><a href="dailyintegrations.html">Daily Integrations</a></li>
@@ -45,74 +43,194 @@
     </div>
 </div>
 <body>
-        <div class="site-banner site-banner--inline" role="status" aria-live="polite">
-  <div class="site-banner__inner">
-    <span class="site-banner__icon" aria-hidden="true">⚠️</span>
-    <div class="site-banner__text"><strong>Under construction</strong> — This page is currently being updated. Please check back soon.</div>
+    <div class="site-banner site-banner--inline" role="status" aria-live="polite">
+      <div class="site-banner__inner">
+        <span class="site-banner__icon" aria-hidden="true">⚠️</span>
+        <div class="site-banner__text"><strong>Under construction</strong> — This page is currently being updated. Please check back soon.</div>
+      </div>
     </div>
-  </div>
-    <h1>This will be where all of my projects are added.</h1>
-    <p>
-        This page is going to be dedicated to all of the projects I have worked on throughout my life, both major and minor. The goal of this page
-        is to showcase my skills as a designer and engineer, as well as to provide potential employers with a portfolio of my work. Another goal of  
-        this page is to allow for easy tracking of all my completed projects as I complete them in the future.
-    </p>    
+
+    <div class="div-greybackground">
+      <div class="page-header">
+        <h1 class="h1-green">Projects</h1>
+      </div>
+      <p>
+        A curated portfolio of engineering and design projects showcasing my skills in mechanical design, aerospace concepts, 
+        software development, and creative problem-solving. Each project reflects my commitment to innovation and practical execution.
+      </p>
+
+      <!-- Filters Section -->
+      <div class="projects-controls">
+        <div class="filter-group">
+          <label for="sort-select">Sort by:</label>
+          <select id="sort-select" aria-label="Sort projects">
+            <option value="date" selected>Date (newest first)</option>
+            <option value="complexity">Complexity (highest first)</option>
+            <option value="name">Name (A-Z)</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="category-filter">Category:</label>
+          <select id="category-filter" aria-label="Filter by category">
+            <option value="all" selected>All Projects</option>
+            <option value="major">Major Projects</option>
+            <option value="minor">Minor Projects</option>
+            <option value="aircraft">Aircraft & Aerospace</option>
+            <option value="mechanical">Mechanical Design</option>
+            <option value="software">Software</option>
+            <option value="furniture">Furniture & Household</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="projects-grid" aria-live="polite">
+        <!--
+          Project Entry Template (copy/paste to add a new project):
+          
+          Required data-attributes:
+            - data-title: Display title for overlay and dock
+            - data-category: Space-separated categories (e.g., "major aircraft")
+            - data-tags: Comma-separated tags for micro-preview and dock chips
+            - data-link: Link to full case study page
+            - data-complexity: Number 1-10 for complexity rating
+            - data-date: ISO date format (YYYY-MM-DD) for sorting
+            - data-meta: Metadata string shown in dock stats (e.g., "2024 | Complexity: 5/10")
+            - data-descriptor: Short description for micro-preview
+          
+          Optional data-attributes (for dock extra info):
+            - data-team: Team size/names
+            - data-status: Project status (In Progress, Complete, etc.)
+            - data-role: Your role on the project
+            - data-tools: Tools/technologies used
+            - data-results: Key results or outcomes
+          
+          Structure:
+            - Image inside .project-image-wrap with .project-title-overlay for idle state
+            - .project-body can contain hidden meta/description (now handled by data-attributes)
+            - JS auto-generates micro-preview and populates dock from data-attributes
+
+        <!- Project 2: Engineering Office ->
+        <div class="project-card" 
+            data-category="CATEGORY" 
+            data-title="Project Title" 
+            data-tags="tag1,tag2,tag3" 
+            data-link="Projects/YourProject.html" 
+            data-complexity="5" 
+            data-date="2024-01-01" 
+            data-duration="TIMEFRAME"
+            data-descriptor="Short description for previews." 
+            data-team="Solo" 
+            data-status="Complete" 
+            data-role="Lead Designer" 
+            data-tools="CAD, 3D Modeling" 
+            data-results="Key outcomes and impact">
+          <div class="project-image-wrap">
+            <img src="IMAGES/your-image.png" alt="Project thumbnail" class="project-image">
+            <div class="project-title-overlay">Project Title</div>
+          </div>
+          <div class="project-body">
+            <div class="project-description" style="display:none">Short description used for previews and dock.</div>
+          </div>
+        </div>
+        -->
+        
+        <!-- Project 1: BollAero18 Drawing Package -->
+        <div class="project-card" 
+        data-category="Major Paperwork " 
+        data-title="BollAero18 Drawing Package" 
+        data-tags="SolidWorks, Technical Drawings, CAD, Doccument-Creation" 
+        data-link="Projects/BollAero18.html" 
+        data-complexity="9" 
+        data-date="April 2025" 
+        data-duration="1 Month"
+        data-descriptor="Complete set of technical drawings, proposal and transmittal doccumentation, all packaged into a 3-ring binder for submission." 
+        data-team="Self + Instructor Guidance" 
+        data-role="CAD Designer, Drafter, and Document Specialist" 
+        data-tools="SolidWorks, SolidWorks-Drawing, SolidWorks-Visualize, Microsoft Word, Microsoft Excel"
+        data-results="Delivered technical drawings for 4 assemblies, 20 make parts, and additional paperwork for 15 purchased parts. Successfully met all submission requirements and received 93% overall." 
+        data-status="Complete">
+
+          <div class="project-image-wrap">
+            <img src="IMAGES/Front Page Pictures/BOLLAERO 18 cover page.png" alt="BollAero18 Drawing Package" class="project-image">
+            <div class="project-title-overlay">BollAero18 Drawing Package</div>
+          </div>
+          <div class="project-body">
+            <div class="project-description" style="display:none">Complete set of technical drawings, proposal and transmittal doccumentation, all packaged into a 3-ring binder for submission.</div>
+          </div>
+        </div>
+
+        <!-- Project 2: Bin Sync -->
+        <div class="project-card" 
+            data-category="Major Software" 
+            data-title="BinSync" 
+            data-tags="minor,software,python,CAD, SolidWorks,3D-printing, Electronics," 
+            data-link="Projects/BinSync.html" 
+            data-complexity="6" 
+            data-date="January 2024" 
+            data-duration="1 month"
+            data-descriptor="Garbage / Recyle day indicator system. " 
+            data-team="Solo" 
+            data-status="Complete" 
+            data-role="Lead Designer" 
+            data-tools="CAD, 3D Modeling, Python, SolidWorks,Soldering, Electronics" 
+            data-results="First Python project, successfully integrated day-tracking software with indicator lights and button-prompted led hardware. Key insights included the value of resistors, proper circuit design, and the importance of proper programming logic.">
+          <div class="project-image-wrap">
+            <img src="IMAGES/Project Images/BinSync/binday overview.jpg" alt="BinSync 3D modeled case mounted on a wall." class="project-image">
+            <div class="project-title-overlay">BinSync</div>
+          </div>
+          <div class="project-body">
+            <div class="project-description" style="display:none">Garbage / Recycle day indicator system using yellow, red, and green leds to indicate the days leading up to the designated day.</div>
+          </div>
+        </div>
+        
+
+      </div>
+    </div>
     
-    <p>
-            The idea with this page is I will make a tiled gallery sorta, where each tile consists of a 
-            general picture, title, and quick description of the project goals. There will be filters 
-            to sort the list by [complexity /10, date, categories like aircraft, housecraft, major / minor projects, etc].
-        </p>
-        <br>
-        <p>
-            Another option for this page is to split it into separate pages for major projects, where I give a detailed description of my goals,
-            deisgn process, and any other relevant pictures / data to complelety show my off my projects. Long-term results can also be included here. 
-            For minor pages, I could still use the gallery feature as described above, but include little pop-ups that give a little more detail about
-            each one. 
-        </p>
-        <br>
-        <p>There are lots of ways to organize this page, but the overall goal is to keep it clean, easy to navigate, and easy to add to.</p>
-        <br>
-        <p> A quick list of the major / minor projects I should include:</p>
-        <h1>Major Projects</h1>
-        <ul>
-            <li>BinSync</li>
-            <li>Engineering Office</li>
-            <li>Custom Furniture [Computer Desk, Standing Desktop, Engineering Electrical Desk]</li>
-            <li>Productivity App and Sheet?</li>
-            <li>Tendon Arm timeline and 2-version design process</li>
-            <li>BollAero 18 Drawing Package [include pdf package and overall mark]</li>
-            <li>3d Printed EDF Fan project</li>
-            <li>DONATELLO // P-01</li>
-            <li> Mini-Project 2 for MENG 181</li>
-            <li>My involment with MARC</li>
-        </ul>
-        <br>
-        <h1>Minor Projects</h1>
-        <ul>
-            <li>Tablet Holder</li>
-            <li>Scale tracker</li>
-            <li>calculator shell</li>
-            <li>DeHavilland page clip</li>
-            <li>cutting board holders</li>
-            <li>Lekker Foods Plaque and cord holder</li>
-            <li>Task Tracker</li>
-            <li>Multi-functional Shirt Brackets</li>
-        </ul>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-                <footer class="site-footer">
+    <!-- Dock UI (populated/controlled by JS) -->
+    <div id="dock-backdrop" class="dock-backdrop" aria-hidden="true"></div>
+    <aside id="project-dock" class="project-dock" aria-hidden="true">
+      <button class="close-dock" aria-label="Close project">✕</button>
+      <div class="dock-hero"><img src="" alt="" id="dock-hero-img"></div>
+      <div class="dock-content">
+        <h2 class="dock-title" id="dock-title"></h2>
+        <div class="dock-overview" id="dock-overview"></div>
+        <div class="dock-stats" id="dock-stats"></div>
+        <div class="dock-tags" id="dock-tags"></div>
+    </div>
+        <!-- Extra info containers for additional project details -->
+        <div class="dock-section" id="dock-team-section" style="display:none">
+          <h3 class="dock-section-title">Team</h3>
+          <div class="dock-team" id="dock-team"></div>
+        </div>
+        
+        <div class="dock-section" id="dock-role-section" style="display:none">
+          <h3 class="dock-section-title">My Role</h3>
+          <div class="dock-role" id="dock-role"></div>
+        </div>
+        
+        <div class="dock-section" id="dock-tools-section" style="display:none">
+          <h3 class="dock-section-title">Tools & Technologies</h3>
+          <div class="dock-tools" id="dock-tools"></div>
+        </div>
+        
+        <div class="dock-section" id="dock-results-section" style="display:none">
+          <h3 class="dock-section-title">Results & Impact</h3>
+          <div class="dock-results" id="dock-results"></div>
+        </div>
+        
+        <div class="dock-section" id="dock-status-section" style="display:none">
+          <h3 class="dock-section-title">Status</h3>
+          <div class="dock-status" id="dock-status"></div>
+        </div>
+        
+        <div class="dock-actions" id="dock-actions"></div>
+      
+    </aside>
+
+    <footer class="site-footer">
       <div class="site-footer__inner">
         <div class="footer-left">
           <a href="index.html" class="footer-logo" aria-label="Home">
@@ -122,14 +240,13 @@
         <nav class="footer-links" aria-label="Footer navigation">
           <a href="index.html">Home</a>
           <a href="education.html">Education</a>
-          <a href="workhistory.html">Work History</a>
           <a href="awardsandrecognitions.html">Awards and Recognitions</a>
           <a href="projects.html">Projects</a>
           <a href="dailyintegrations.html">Daily Integrations</a>
         </nav>
         <div class="footer-contact">
           <a href="mailto:owen@owenbrady.ca">owen@owenbrady.ca</a>
-          <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/owen-brady-4b3843258/" target="_blank" rel="noopener">LinkedIn</a>
           <a href="https://www.instagram.com/itsowenbrady/" target="_blank" rel="noopener">Instagram</a>
         </div>
       </div>
