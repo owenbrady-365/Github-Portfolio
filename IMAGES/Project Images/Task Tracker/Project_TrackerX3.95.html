@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Neon Project Tracker v1.11</title>
+<style>
+
+  body{
+    margin:0;
+     /* Background image */
+  background:
+    linear-gradient(
+      rgba(0,0,0,0.6),
+      rgba(0,0,0,0.8)
+    ),
+    url("Background_Ultimate.jpg");
+
+  background-size: 100% auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family:'Segoe UI',sans-serif;
+  color:#eee;
+  overflow:hidden
+}
+
+  #sidebar{position:fixed;top:0;left:0;height:110vh;width:250px;background:#111;
+  transform:translateX(-260px);transition:.3s;z-index:10;padding:1em;
+  box-shadow:2px 0 10px rgba(0,0,0,.6)}
+  #sidebar.active{transform:translateX(0)}
+  #sidebar h2{margin-top:0}
+
+  #sidebar button,#toggleMenu{
+    background:#222;
+    color:var(--neon);
+    border:none;
+  padding:.5em 1em;
+  border-radius:8px;
+  cursor:pointer;
+  margin-top:.5em
+}
+  #toggleMenu{position:fixed;top:1em;left:1em;z-index:20}
+  #workspace{position:relative;width:100vw;height:100vh;overflow:auto}
+  
+.node .node-title {
+  width: 100%;
+  background: transparent;       /* no white box */
+  color: #fff;                   /* readable on dark nodes */
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;                  /* no border lines */
+  outline: none;                 /* no blue focus outline */
+  margin-bottom: 6px;
+  padding: 2px 4px;              /* small padding for comfort */
+  text-shadow: 0 0 6px var(--neon, #0ff); /* subtle neon glow effect */
+  caret-color: var(--neon, #0ff);         /* neon caret */
+}
+
+.node .node-title::placeholder {
+  color: #aaa;                   /* subtle placeholder color */
+}
+
+
+.project-header::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.65),
+    rgba(0, 0, 0, 0.5)
+  ), var(--header-bg, none);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.75; /* darker overlay for better contrast */
+  z-index: 0;
+  transition: background-image 0.3s ease;
+}
+
+/* Make header contents glow and stand out */
+.project-header > * {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4),
+               0 0 20px var(--neon, #990f00);
+}
+
+/* Brighten progress info */
+#progressCounter, .progress-bar {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+}
+
+/* More visible button */
+.project-header button.settings-btn {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--neon, #990f00);
+  color: #fff;
+  box-shadow: 0 0 10px var(--neon, #990f00);
+  transition: all 0.2s ease-in-out;
+}
+
+.project-header button.settings-btn:hover {
+  background: var(--neon, #990f00);
+  color: #111;
+}
+  .progress-bar {
+    height:6px;width:60%;margin:.5em auto;border-radius:3px;
+    background:#222;overflow:hidden;
+  }
+html, body {
+  scroll-behavior: auto; /* prevent jump animations */
+}
+.workspace {
+  overflow: hidden; /* or auto if needed, but manage scroll */
+}
+
+.project-header {
+  position: relative;
+  margin: auto;
+  width: 45vw;
+  min-width: 25vw;
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--neon);
+  overflow: hidden;
+  text-align: center;
+  color: #eee;
+  padding: 1.5em 1em;
+  transition: all 0.3s ease;
+}
+
+
+  .project-header h1{
+    display:inline-block;
+    font-size:2vw;
+    margin:.2em 0
+  }
+
+  .progress-bar-fill{height:100%;width:0;background:var(--neon);
+  transition:width .3s ease;box-shadow:0 0 10px var(--neon)}
+
+  .node{
+    position:absolute;
+    background:#222;
+    border:2px solid #333;
+    padding:.8em;
+    border-radius:10px;
+    width:fit-content;
+    max-width: min(20vw, 300px);
+    text-align:left;
+    box-shadow:0 0 10px #000;
+    transition:box-shadow .3s,border-color .3s,opacity 1s;
+    cursor:grab;
+    animation:pulse 4s ease-in-out infinite alternate;
+  }
+
+    @keyframes pulse{0%{opacity:1;}100%{opacity:.75;}}
+
+  .node:active{cursor:grabbing}
+
+  .node.glow{
+    box-shadow:0 0 20px var(--neon);
+    border-color:var(--neon)}
+
+  .node textarea{
+    width:100%;
+    height:max-content;
+    background:transparent;
+    color:#eee;
+    border:none;
+    resize:vertical
+  }
+  .node-controls{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .node-controls button{
+    background:#333;
+    border:none;
+    border-radius:5px;
+  color:white;
+  cursor:pointer;
+  padding:.2em .5em;
+}
+  .deleteNodeBtn{
+    color:#f44;
+    font-weight:bold;
+    margin-left:.3em;
+  }
+  .node img{margin-top:.5em;max-width:100%;border-radius:5px}
+  svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;z-index:0}
+  .tube{stroke:#333;stroke-width:3;fill:none;transition:stroke .5s;stroke-dasharray:75 10;animation:pulse 2s ease-in-out infinite alternate;animation:lineFlow 4s linear infinite;}
+  @keyframes lineFlow{to{stroke-dashoffset:-20;}}
+  .tube.glow{stroke:var(--neon);filter:drop-shadow(0 0 6px var(--neon))}
+  #modalOverlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,.3);justify-content:center;align-items:center;z-index:100}
+  #settingsModal{background:#1a1a1a;border:1px solid #333;border-radius:10px;
+  padding:1em 2em;text-align:center;color:#eee;min-width:300px}
+  #settingsModal input[type="text"]{width:80%;margin:.5em 0;background:#222;
+  border:1px solid #444;color:#eee;padding:.3em}
+  #settingsModal input[type="color"],#settingsModal input[type="file"]{margin:.5em 0}
+  #settingsModal button{background:#222;border:none;color:var(--neon,#990f00);
+  padding:.5em 1em;border-radius:6px;margin-top:.5em;cursor:pointer}
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-thumb{background:#333;border-radius:5px}
+
+    .deleteProjBtn{background:#300;color:#f55!important;margin-top:1em;}
+  .progress-bar-fill {
+    height:100%;width:0;background:var(--neon);
+    transition:width .3s ease;box-shadow:0 0 10px var(--neon);
+  }
+
+</style>
+</head>
+<body>
+<button id="toggleMenu">☰</button>
+<div id="sidebar">
+  <h2>Projects</h2>
+  <div id="projectList"></div>
+  <button id="addProject">+ New Project</button>
+</div>
+
+<div id="workspace">
+  <svg id="connections"></svg>
+  <div class="project-header" id="projectHeader">
+    <div id="progressCounter"></div>
+  </div>
+  <div id="nodesContainer"></div>
+</div>
+
+<div id="modalOverlay">
+  <div id="settingsModal">
+    <h2>Project Settings</h2>
+    <label>Project Name</label><br>
+    <input type="text" id="modalTitle"><br>
+    <label>Theme Color</label><br>
+    <input type="color" id="modalColor"><br>
+    <label>Project Image</label><br>
+    <input type="file" id="modalImg" accept="image/*"><br>
+    <button id="closeModal">Close</button>
+    <button class="deleteProjBtn" id="deleteProject">🗑️ Delete Project</button>
+  </div>
+</div>
+
+<script>
+let data=JSON.parse(localStorage.getItem('neonTrackerData')||'{}');
+let currentProjectId=null;
+const projectList=document.getElementById('projectList'),
+workspace=document.getElementById('workspace'),
+nodesContainer=document.getElementById('nodesContainer'),
+connections=document.getElementById('connections'),
+projectHeader=document.getElementById('projectHeader'),
+sidebar=document.getElementById('sidebar'),
+toggleMenu=document.getElementById('toggleMenu'),
+modalOverlay=document.getElementById('modalOverlay'),
+modalTitle=document.getElementById('modalTitle'),
+modalColor=document.getElementById('modalColor'),
+modalImg=document.getElementById('modalImg'),
+closeModal=document.getElementById('closeModal');
+deleteProject=document.getElementById('deleteProject'),
+progressCounter=document.getElementById('progressCounter'),
+
+toggleMenu.onclick=()=>sidebar.classList.toggle('active');
+document.getElementById('addProject').onclick=()=>{
+  const id='proj-'+Date.now();
+  data[id]={id,title:'New Project',color:'#990f00',image:'',
+  nodes:[{id:'node-1',text:'Start Here',done:false,parent:null,
+          x:window.innerWidth/2-100,y:200,image:''}]};
+  save();loadProject(id);refreshProjectList();
+};
+
+
+function refreshProjectList(){
+  projectList.innerHTML='';
+  Object.values(data).forEach(p=>{
+    const div=document.createElement('div');
+    div.textContent=p.title;div.style.cursor='pointer';
+    div.onclick=()=>{loadProject(p.id);sidebar.classList.remove('active')};
+    projectList.appendChild(div);
+  });
+}
+function save(){localStorage.setItem('neonTrackerData',JSON.stringify(data));}
+
+function loadProject(id){
+  currentProjectId=id;
+  const proj=data[id];
+  workspace.style.setProperty('--neon',proj.color);
+  renderProject(proj);
+}
+
+function renderProject(proj) {
+  // Save current scroll position
+  const scrollTop = workspace.scrollTop;
+  const scrollLeft = workspace.scrollLeft;
+
+  const total = proj.nodes.length;
+  const complete = proj.nodes.filter(n => n.done && isPathComplete(proj, n)).length;
+  const pct = Math.round((complete / total) * 100);
+
+  // --- Dynamic project header background ---
+  if (proj.image) {
+    projectHeader.style.backgroundImage = `url('${proj.image}')`;
+    projectHeader.style.backgroundSize = 'scale'; // shows full image
+    projectHeader.style.backgroundPosition = 'center';
+    projectHeader.style.backgroundRepeat = 'no-repeat';
+    projectHeader.style.minWidth = '35vw';
+    projectHeader.style.minHeight = 'auto';
+    projectHeader.style.opacity = '1'; // slight transparency
+  } else {
+    projectHeader.style.background = 'none';
+    projectHeader.style.opacity = '1';
+  }
+
+  // --- Header content ---
+  projectHeader.innerHTML = `
+    <h1>${proj.title}</h1>
+    <button class="settings-btn">⚙️</button>
+    <div id="progressCounter">Progress: ${pct}%</div>
+    <div class="progress-bar"><div class="progress-bar-fill" style="width:${pct}%;"></div></div>
+  `;
+
+  // --- Attach settings button handler ---
+  document.querySelector('.settings-btn').onclick = () => openSettings(proj);
+
+  // --- Clear and rebuild nodes ---
+  nodesContainer.innerHTML = '';
+  connections.innerHTML = '';
+  proj.nodes.forEach(n => createNodeElement(n, proj.color));
+
+  // --- Redraw all node connections ---
+  drawConnections(proj);
+  
+   // Restore scroll position
+  workspace.scrollTo(scrollLeft, scrollTop);
+}
+
+function openSettings(proj){
+  modalOverlay.style.display='flex';
+  modalTitle.value=proj.title;
+  modalColor.value=proj.color;
+  modalImg.value=null;
+  closeModal.onclick=()=>modalOverlay.style.display='none';
+  deleteProject.onclick=()=>{
+    if(confirm('Delete this entire project?')){
+      delete data[proj.id];save();modalOverlay.style.display='none';refreshProjectList();
+      nodesContainer.innerHTML='';connections.innerHTML='';projectHeader.innerHTML='';
+    }
+  };
+  modalTitle.oninput=()=>{proj.title=modalTitle.value;save();renderProject(proj);refreshProjectList();};
+  modalColor.oninput=()=>{proj.color=modalColor.value;workspace.style.setProperty('--neon',proj.color);save();renderProject(proj);};
+ modalImg.onchange = e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    proj.image = r.result;
+    save();
+    projectHeader.style.setProperty("--header-bg", `url('${proj.image}')`);
+    renderProject(proj);
+  };
+  r.readAsDataURL(f);
+};
+
+
+}
+
+function isPathComplete(proj,node){
+  if(!node.parent){
+    const root=proj.nodes.find(n=>!n.parent);
+    return root&&root.done;
+  }
+  const parent=proj.nodes.find(n=>n.id===node.parent);
+  return parent&&parent.done&&isPathComplete(proj,parent);
+}
+
+function createNodeElement(node, color) {
+  const div = document.createElement('div');
+  div.className = 'node';
+  div.style.left = node.x + 'px';
+  div.style.top = node.y + 'px';
+  div.dataset.id = node.id;
+  div.style.setProperty('--neon', color);
+
+  const proj = data[currentProjectId];
+  if (node.done && isPathComplete(proj, node)) div.classList.add('glow');
+
+  div.innerHTML = `
+  <input type="text" class="node-title" value="${node.title || ''}" placeholder="Title">
+    <div class="node-controls">
+      <input type="checkbox" class="done" ${node.done ? 'checked' : ''}>
+      <button type="button" class="addDown">↓</button>
+      <button type="button" class="addSide">→</button>
+      <button type="button" class="deleteNodeBtn">❌</button>
+      <input type="file" class="imgInput" accept="image/*" style="width:60px">
+    </div>
+    <textarea>${node.text}</textarea>
+    ${node.image ? `<img src="${node.image}" style="max-width:100%;border-radius:6px;">` : ''}
+  `;
+  nodesContainer.appendChild(div);
+
+  // --- Node title input ---
+const titleInput = div.querySelector('.node-title');
+titleInput.addEventListener('input', e => {
+  node.title = e.target.value;
+  save();
+});
+
+  // --- Event Handlers ---
+  div.querySelector('.done').onchange = e => {
+    node.done = e.target.checked;
+    save();
+    renderProject(data[currentProjectId]);
+  };
+
+  div.querySelector('.addDown').onclick = () => addBranch(node.id, 'down');
+  div.querySelector('.addSide').onclick = () => addBranch(node.id, 'side');
+
+  // FIXED: reliable delete behavior
+  div.querySelector('.deleteNodeBtn').addEventListener('click', e => {
+    e.stopPropagation();
+    if (confirm('Delete this node and its children?')) {
+      deleteNode(node.id);
+    }
+  });
+
+  div.querySelector('textarea').oninput = e => {
+    node.text = e.target.value;
+    save();
+  };
+
+const ta = div.querySelector('textarea');
+ta.style.height = 'auto';
+ta.style.height = ta.scrollHeight + 'px';
+ta.addEventListener('input', () => {
+  ta.style.height = 'auto';
+  ta.style.height = ta.scrollHeight + 'px';
+  node.text = ta.value; // also update node text if needed
+  save();
+});
+
+  // FIXED: image upload now updates correctly
+  div.querySelector('.imgInput').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      // --- Resize on canvas ---
+      const canvas = document.createElement('canvas');
+      const maxWidth = 1600;
+      const scale = Math.min(1, maxWidth / img.width);
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      // --- Convert to smaller Base64 ---
+      const resizedData = canvas.toDataURL('image/jpeg', 0.1);
+
+      node.image = resizedData;
+      save();
+
+      // Update node preview
+      let imgTag = div.querySelector('img');
+      if (!imgTag) {
+        imgTag = document.createElement('img');
+        div.appendChild(imgTag);
+      }
+      imgTag.src = resizedData;
+      imgTag.style.maxWidth = '100%';
+      imgTag.style.borderRadius = '6px';
+    };
+    img.src = r.result;
+  };
+  r.readAsDataURL(f);
+});
+
+
+  enableDrag(div, node);
+}
+
+
+function deleteNode(nodeId){
+  const proj=data[currentProjectId];
+  // recursively delete children
+  function remove(id){
+    proj.nodes.filter(n=>n.parent===id).forEach(child=>remove(child.id));
+    proj.nodes=proj.nodes.filter(n=>n.id!==id);
+  }
+  remove(nodeId);
+  save();renderProject(proj);
+}
+
+function addBranch(parentId,dir){
+  const proj=data[currentProjectId];
+  const p=proj.nodes.find(n=>n.id===parentId);
+  const newId='node-'+Date.now();
+  const offset=dir==='down'?{x:0,y:250}:{x:300,y:0};
+  const newNode={id:newId,text:'New Task',done:false,parent:parentId,
+                 x:p.x+offset.x,y:p.y+offset.y,image:''};
+  proj.nodes.push(newNode);save();renderProject(proj);
+}
+
+function drawConnections(proj) {
+  connections.innerHTML = ''; // clear old lines before redrawing
+
+  proj.nodes.forEach(n => {
+    if (n.parent) {
+      const parent = proj.nodes.find(x => x.id === n.parent);
+      if (!parent) return;
+
+      // Get corresponding DOM elements
+      const parentDiv = document.querySelector(`.node[data-id="${parent.id}"]`);
+      const childDiv = document.querySelector(`.node[data-id="${n.id}"]`);
+      if (!parentDiv || !childDiv) return;
+
+      // Compute center points of both nodes
+      const parentRect = parentDiv.getBoundingClientRect();
+      const childRect = childDiv.getBoundingClientRect();
+
+      const workspaceRect = workspace.getBoundingClientRect(); // for relative positioning
+
+      const x1 = parentRect.left - workspaceRect.left + parentRect.width / 2;
+      const y1 = parentRect.top - workspaceRect.top + parentRect.height / 2;
+
+      const x2 = childRect.left - workspaceRect.left + childRect.width / 2;
+      const y2 = childRect.top - workspaceRect.top + childRect.height / 2;
+
+      // Create connection line
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', x1);
+      line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', y2);
+      line.classList.add('tube');
+
+      if (parent.done && n.done && isPathComplete(proj, n))
+        line.classList.add('glow');
+
+      line.style.setProperty('--neon', proj.color);
+      connections.appendChild(line);
+    }
+  });
+}
+
+
+
+/* Drag & Drop grid-snap */
+function enableDrag(div,node){
+  let offX,offY,drag=false;
+  div.addEventListener('pointerdown',e=>{
+    if(['TEXTAREA','INPUT','BUTTON'].includes(e.target.tagName))return;
+    drag=true;offX=e.clientX-node.x;offY=e.clientY-node.y;
+    div.setPointerCapture(e.pointerId);
+  });
+  div.addEventListener('pointermove',e=>{
+    if(!drag)return;
+    const x=Math.round((e.clientX-offX)/50)*50;
+    const y=Math.round((e.clientY-offY)/50)*50;
+    node.x=x;node.y=y;div.style.left=x+'px';div.style.top=y+'px';
+    drawConnections(data[currentProjectId]);
+  });
+  div.addEventListener('pointerup',e=>{
+    if(!drag)return;drag=false;save();renderProject(data[currentProjectId]);
+  });
+  div.querySelector('.imgInput').addEventListener('click', e => e.stopPropagation());
+
+
+}
+
+refreshProjectList();
+const first=Object.keys(data)[0];
+if(first)loadProject(first);
+</script>
+</body>
+</html>

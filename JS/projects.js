@@ -318,9 +318,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function layoutMasonry() {
+      const gap = 24; // 2rem gap in pixels
       const containerWidth = grid.offsetWidth;
       const columnCount = Math.max(1, Math.floor(containerWidth / 260)); // ~260px per column
-      const columnWidth = containerWidth / columnCount;
+      const totalGapWidth = (columnCount - 1) * gap; // total horizontal gap space
+      const availableWidth = containerWidth - totalGapWidth;
+      const columnWidth = availableWidth / columnCount;
       const columns = Array(columnCount).fill(0); // track height of each column
       
       let maxHeight = 0;
@@ -333,8 +336,8 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
         
-        // position card
-        const x = shortestCol * columnWidth;
+        // position card (accounting for gap between columns)
+        const x = shortestCol * (columnWidth + gap);
         const y = columns[shortestCol];
         
         card.style.position = 'absolute';
@@ -342,9 +345,9 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.top = y + 'px';
         card.style.width = columnWidth + 'px';
         
-        // update column height
+        // update column height (accounting for gap between rows)
         const cardHeight = card.offsetHeight;
-        columns[shortestCol] += cardHeight;
+        columns[shortestCol] += cardHeight + gap;
         maxHeight = Math.max(maxHeight, columns[shortestCol]);
       });
       

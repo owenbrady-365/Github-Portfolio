@@ -635,7 +635,7 @@ p.shifted{
   bottom: 0.5rem;
   padding: 0.4rem 0.6rem;
   margin: 0 0.6rem;
-  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.8);
   color: var(--color-white);
   font-weight: 700;
   font-family: "Chunk1", Arial, sans-serif;
